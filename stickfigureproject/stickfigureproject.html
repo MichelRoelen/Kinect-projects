@@ -1,0 +1,304 @@
+<!doctype html>
+<html>
+<head>
+  <title>Kinect track</title>
+  <style>
+
+  html, body {margin: 0; height: 100%; overflow: hidden}
+
+  #animate {
+    position: absolute;
+  }
+
+  .ball {     
+    top:40%; 
+    left:600px;
+    height: 75px;
+    width: 75px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 100px 15px white;
+  }
+
+  .split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow: hidden;
+    mix-blend-mode: difference;
+  }
+  
+  .left { 
+    left: 0;
+    background-color: black;
+    /*mix-blend-mode: difference;*/
+  }
+
+  .right {
+    right: 0;
+    background-color: white;
+    /*mix-blend-mode: difference;*/
+  }
+
+    /*.center{
+      position: center;
+      text-align: center;
+    }
+
+    img {
+      left: 50%;
+      }*/
+
+      #videoding{
+        width:50%;
+        top:11%; 
+        left:55%; 
+        position: absolute;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes fadeout {
+        0%   {opacity: 1;}
+        20%  {opacity: 0.8;}
+        40%  {opacity: 0.6;}
+        60%  {opacity: 0.4;}
+        80%  {opacity: 0.2;}
+        100% {opacity: 0;}
+      }
+
+      #myHead{
+        position: absolute;
+      }
+
+      #leftHand{
+        position: absolute; 
+      }
+
+      #leftElbow{
+        position: absolute; 
+      }
+
+      #leftShoulder{
+        position: absolute; 
+      }
+
+      #rightHand{
+        position: absolute; 
+      }
+
+      #rightElbow{
+        position: absolute; 
+      }
+
+      #rightShoulder{
+        position: absolute; 
+      }
+
+      #middleShoulder{
+        position: absolute; 
+      }
+
+      #stomach{
+        position: absolute; 
+      }
+
+      #waist{
+        position: absolute; 
+      }
+
+      #leftHip{
+        position: absolute; 
+      }
+
+      #rightHip{
+        position: absolute; 
+      }
+
+      #leftKnee{
+        position: absolute; 
+      }
+
+      #rightKnee{
+        position: absolute; 
+      }
+
+      #leftFoot{
+        position: absolute; 
+      }
+
+      #rightFoot{
+        position: absolute; 
+      }
+
+      .bigball{
+        width: 105px;
+        margin-top: -53px;
+        margin-left: -53px;
+      }
+
+      .medball{
+        width: 55px;
+        margin-top: -28px;
+        margin-left: -28px;
+      } 
+
+      .smallball{
+        width:15px;
+        margin-top: -8px;
+        margin-left: -8px;
+      }
+
+    </style>
+  </head>
+  <body onclick="balMove();">
+    <div id="animate" class="ball"></div>
+
+    <div class="split left">
+      <img id="myHead" class="bigball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="leftHand" class="medball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="leftElbow" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="leftShoulder" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="rightHand" class="medball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="rightElbow" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="rightShoulder" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="middleShoulder" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="stomach" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="waist" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="leftHip" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="rightHip" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="leftKnee" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="rightKnee" class="smallball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="leftFoot" class="medball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <img id="rightFoot" class="medball" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/White_dot.svg/2000px-White_dot.svg.png">
+      <div id="drawing" style="width: 100%;height: 100%;"></div>
+    </div>
+    <div class="split right">
+      <video loop id="videoding" autoplay="true" src="http://i341618.hera.fhict.nl/S3/firstrenderklein.mp4">
+      </div>
+      
+    </body>
+    </html>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.4/svg.js"></script>
+    <script> 
+      var executed = 0;
+      var vid = document.getElementById("videoding");
+
+      var lineArr = new Array();
+      var draw = SVG('drawing');
+
+      function drawLine(){
+      lineArr.push(draw.line(0,0,100,100).stroke({ color: '#ffffff', width: 35, linecap: 'round' }));
+      }
+
+      function updateLine(lineNr, x1, y1, x2, y2){
+        lineArr[lineNr].plot(x1/2, y1, x2/2, y2);
+      }  
+
+      for (i=0; i<15; i++){
+        drawLine();
+      }
+
+      function balMove() {
+        if (executed == 0){
+          var elem = document.getElementById("animate");
+          var pos = 600;
+          var id = setInterval(frame, 5);
+              var width = window.innerWidth - 222; // min de width van de bal
+              console.log(width);
+              function frame() {
+                if (pos == width) {
+                  elem.style.visibility = 'hidden';
+                  vid.style.animation = 'fadeout 1s';
+                  vid.style.opacity = 0;
+                  clearInterval(id);
+                } else {
+                  pos+=3;
+                  elem.style.left = pos - 'px';
+                  elem.style.left = pos + 'px';
+                }
+              }
+            }
+            executed = 1;
+          }
+
+          var halfWidth = window.innerWidth;
+          var halfHeight = window.innerHeight;
+          var socket = io.connect('http://localhost:8000/'); 
+          socket.on('bodyFrame', interpretData);
+          function interpretData(bodyFrame) {
+            bodyFrame.bodies.forEach (function(body){
+              if(body.tracked){
+
+                var jointElement = [waist, stomach, null, myHead, leftShoulder, leftElbow, null, leftHand, rightShoulder, rightElbow, null, rightHand, leftHip, leftKnee, null, leftFoot, rightHip, rightKnee, null, rightFoot,  middleShoulder];
+
+                function drawJoint(idx){
+                  if(!jointElement[idx]) return;
+
+                  var x = body.joints[idx].depthX;
+                  var osx = Math.round(x * halfWidth);
+                  var y = body.joints[idx].depthY;
+                  var osy = Math.round(y * halfHeight);
+
+                  var percentX = parseInt(osx / innerWidth * 100);
+                  var percentY = parseInt(osy / innerHeight * 100);
+                  jointElement[idx].style.left = percentX +'%';
+                  jointElement[idx].style.top = percentY+'%';
+                }
+
+                for (i = 0; i <= 21; i++){
+                  drawJoint(i);
+                }
+
+                function jointsCon(j1,j2,nr){
+
+                  var x1 = body.joints[j1].depthX;
+                  var osx1 = Math.round(x1 * halfWidth);
+                  var y1 = body.joints[j1].depthY;
+                  var osy1 = Math.round(y1 * halfHeight);
+                  var x2 = body.joints[j2].depthX;
+                  var osx2 = Math.round(x2 * halfWidth);
+                  var y2 = body.joints[j2].depthY;
+                  var osy2 = Math.round(y2 * halfHeight);
+
+                  updateLine(nr, osx1, osy1, osx2, osy2);
+                }
+
+                jointsCon(5,7,0);
+                jointsCon(4,5,1);
+                jointsCon(4,20,2);
+                jointsCon(20,8,3);
+                jointsCon(8,9,4);
+                jointsCon(9,11,5);
+                jointsCon(3,20,6);
+                jointsCon(20,1,7);
+                jointsCon(1,0,8);
+                jointsCon(0,12,9);
+                jointsCon(0,16,10);
+                jointsCon(16,17,11);
+                jointsCon(17,19,12);
+                jointsCon(12,13,13);
+                jointsCon(13,15,14);
+
+                //Interactiont with Ball
+                var leftHandPositionX = body.joints[7].depthX;
+                var leftHandOnScreenX = Math.round(leftHandPositionX * halfWidth);
+                var leftHandPositionY = body.joints[7].depthY;
+                var leftHandOnScreenY = Math.round(leftHandPositionY * halfHeight);
+
+                var rightHandPositionX = body.joints[11].depthX;
+                var rightHandOnScreenX = Math.round(rightHandPositionX * halfWidth);
+                var rightHandPositionY = body.joints[11].depthY;
+                var rightHandOnScreenY = Math.round(rightHandPositionY * halfHeight);
+
+                if(leftHandOnScreenX > halfWidth * 0.60 && leftHandOnScreenX < halfWidth * 0.75 && leftHandOnScreenY < halfHeight * 0.50 && leftHandOnScreenY > halfHeight * 0.40 || rightHandOnScreenX > halfWidth * 0.60 && rightHandOnScreenX < halfWidth * 0.75 && rightHandOnScreenY < halfHeight * 0.50 && rightHandOnScreenY > halfHeight * 0.40){
+                 balMove();
+               }
+             }           
+           });
+          } 
+
+        </script>

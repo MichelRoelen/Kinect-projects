@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+  <title>Kinect track</title>
+  <style>
+
+  html, body {margin: 0; height: 100%; overflow: hidden}
+
+
+  #links{
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    float: left;
+  }
+
+
+  #hand{
+    position: absolute; 
+    margin-top: -80px;
+    margin-left: -70px;
+  }
+
+</style>
+</head>
+<body>
+  <audio id="audio1" src="http://i359085.hera.fhict.nl/scale_01.mp3" ></audio>
+  <audio id="audio2" src="http://i359085.hera.fhict.nl/scale_02.mp3" ></audio>
+  <audio id="audio3" src="http://i359085.hera.fhict.nl/scale_03.mp3" ></audio>
+  <audio id="audio4" src="http://i359085.hera.fhict.nl/scale_04.mp3" ></audio>
+  <audio id="audio5" src="http://i359085.hera.fhict.nl/scale_05.mp3" ></audio>
+  <audio id="audio6" src="http://i359085.hera.fhict.nl/scale_06.mp3" ></audio>
+
+  <div id="links">
+      <div id ="divCounter" style="background-color: white; width: 250px; height: 250px; margin-left:45%; margin-top:10%; font-size: 200px; padding-left: 130px;">
+      </div>
+  </div>
+        
+        
+        <script src="/socket.io/socket.io.js"></script>
+        <script> 
+          var audio1 = document.getElementById("audio1");
+          var audio2 = document.getElementById("audio2");
+          var audio3 = document.getElementById("audio3");
+          var audio4 = document.getElementById("audio4");
+          var audio5 = document.getElementById("audio5");
+          var audio6 = document.getElementById("audio6");
+
+          var countArray = [];
+          
+          var window_width = window.innerWidth;
+          var window_height = window.innerHeight;
+
+          var handd = document.getElementById('hand');
+          var socket = io.connect('http://localhost:8000/'); 
+          socket.on('bodyFrame', interpretData);
+          function interpretData(bodyFrame) {
+            for(var i = 0; i < bodyFrame.bodies.length; i++){
+              if(bodyFrame.bodies[i].tracked){
+
+                var head_x = Math.round(bodyFrame.bodies[i].joints[3].depthX * window_width);
+                var head_y = Math.round(bodyFrame.bodies[i].joints[3].depthY * window_height);
+
+                var body_index = bodyFrame.bodies[i].bodyIndex;
+
+                countArray.push(body_index);
+                var count = bodyFrame.bodies.length;
+                var countArray2 = [...new Set(countArray)];
+                document.getElementById("divCounter").innerHTML = countArray2.length;
+                console.log("Length: " + countArray2.length);
+
+                if(countArray2.length == 1){
+                	var playPromise = audio1.play();
+          			  
+                  if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                      0;
+                    })
+                  }
+                }
+                if(countArray2.length == 2){
+                	var playPromise2 = audio2.play();
+                  if (playPromise2 !== undefined) {
+                    playPromise2.then(_ => {
+                      0;
+                    })
+                  }
+                }
+                if(countArray2.length == 3){
+                	var playPromise3 = audio3.play();
+                  if (playPromise3 !== undefined) {
+                    playPromise3.then(_ => {
+                      0;
+                    })
+                  }
+                }
+                if(countArray2.length == 4){
+                  var playPromise4 = audio4.play();
+                  if (playPromise4 !== undefined) {
+                    playPromise4.then(_ => {
+                      0;
+                    })
+                  }
+                }
+                if(countArray2.length == 5){
+                  var playPromise5 = audio5.play();
+                  if (playPromise5 !== undefined) {
+                    playPromise5.then(_ => {
+                      0;
+                    })
+                  }
+                }
+                if(countArray2.length == 6){
+                  var playPromise6 = audio6.play();
+                  if (playPromise6 !== undefined) {
+                    playPromise6.then(_ => {
+                      0;
+                    })
+                  }
+                }
+              }
+            }
+          }
+        </script>
+  </body>
+</html>
