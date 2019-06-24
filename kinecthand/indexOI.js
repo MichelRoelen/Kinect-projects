@@ -4,7 +4,7 @@ var io = require('socket.io')(http);
 var Kinect2 = require('../node_modules/kinect2');
 
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/indexkinect.html');
+	res.sendFile(__dirname + '/indexOI.html');
 });
 
 
@@ -20,3 +20,6 @@ if(kinect.open()) {
 
 	kinect.openBodyReader();
 }
+
+
+

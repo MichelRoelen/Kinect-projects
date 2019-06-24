@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <title>Kinect track</title>
+  <style>
+
+  html, body {margin: 0; height: 100%; overflow: hidden; background-color:black;}
+
+  #texttest{
+    visibility: visible;
+    color: white;
+    position: absolute;
+    font-size: 500px;
+    float: left;
+  }
+  
+
+  #hand{
+    position: absolute; 
+    margin-top: -80px;
+    margin-left: -70px;
+    width: 350px;
+    min-width: 50px;
+    max-width: 350px;
+    transform: rotate(0deg);
+  }
+
+</style>
+</head>
+<body>
+  <div id="links"><img id="hand" src="http://i341618.hera.fhict.nl/S3/hand_open.png"><span id="ball"></span></div>
+  
+        </body>
+        </html>
+        <script src="/socket.io/socket.io.js"></script>
+        <script> 
+          var handd = document.getElementById('hand');
+          var afstand;
+          var halfWidth = window.innerWidth;
+          var halfHeight = window.innerHeight;
+          var socket = io.connect('http://localhost:8000/'); 
+          socket.on('bodyFrame', interpretData);
+          function interpretData(bodyFrame) {
+            bodyFrame.bodies.forEach (function(body){
+                if(body.tracked){
+                var leftHandPositionX = body.joints[7].colorX;
+                var locationOnScreenX = Math.round(leftHandPositionX * 1920);
+                var leftHandPositionY = body.joints[7].colorY;
+                var locationOnScreenY = Math.round(leftHandPositionY * 1080);
+                var leftHandDistanceZ = body.joints[7].cameraZ;
+                console.log(("X " + locationOnScreenX)+( " Y " + locationOnScreenY)+ (" Z " + leftHandDistanceZ));
+              }
+                handd.style.left = locationOnScreenX +'px';
+                handd.style.top = locationOnScreenY+'px';
+                afstand = leftHandDistanceZ * 100;
+                handd.style.width = 350 - afstand + 'px';
+                console.log(handd.style.width);
+            });
+
+          }
+
+        </script>
